@@ -9,19 +9,13 @@ import {
 import { HeartIcon as LikedHeartIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Moment from "react-moment";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  setDoc,
-} from "firebase/firestore";
-import { signIn, useSession } from "next-auth/react";
-import { db, storage } from "../firebase";
+import { collection, onSnapshot } from "firebase/firestore";
+import { useSession } from "next-auth/react";
+import { db } from "../firebase";
 import { useEffect, useState } from "react";
-import { deleteObject, ref } from "firebase/storage";
+
 import { useRecoilState } from "recoil";
-import { modalState, postIdState } from "../atom/modalAtom";
+import { postIdState } from "../atom/modalAtom";
 
 const CommentPage = ({ comment, commentId, originalPostId }) => {
   const { data: session } = useSession();
@@ -44,9 +38,6 @@ const CommentPage = ({ comment, commentId, originalPostId }) => {
     );
   }, [likes]);
 
-  async function deleteComment() {
-    deleteDoc(doc(db, "posts", originalPostId, "comments", commentId));
-  }
   return (
     <div className="flex p-4 space-x-4 shadow-sm pb-6 mb-4 border-b border-b-gray-200 pl-16">
       <div>
@@ -78,14 +69,6 @@ const CommentPage = ({ comment, commentId, originalPostId }) => {
             <EllipsisHorizontalIcon className="icon" />
           </div>
           <p>{comment?.comment}</p>
-        </div>
-        <div className="flex justify-around">
-          {session?.user.uid === comment?.id && (
-            <TrashIcon
-              onClick={deleteComment}
-              className="icon hover:text-red-700"
-            />
-          )}
         </div>
       </div>
     </div>
