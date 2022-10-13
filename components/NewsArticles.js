@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const NewsArticles = ({ article }) => {
   return (
-    <Link href={article.url}>
+    <Link rel="noreferrer" href={article.url} target="_blank">
       <div className="mb-2 flex items-center justify-between hover:bg-gray-200 cursor-pointer p-2 rounded-lg">
         <div>
           <p>{article.title}</p>
